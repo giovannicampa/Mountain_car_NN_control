@@ -3,8 +3,6 @@ import random
 import numpy as np
 from tensorflow.python import keras
 import tensorflow as tf
-from sklearn.model_selection import train_test_split
-from sklearn.neural_network import MLPRegressor
 from sklearn.preprocessing import OneHotEncoder
 from keras.models     import Sequential
 from keras.layers     import Dense
@@ -27,9 +25,6 @@ enc.fit(y.reshape(-1,1))
 y_onehot = enc.transform(y.reshape(-1,1)).toarray()
 
 
-X_train, X_test, y_train, y_test = train_test_split(X, y_onehot)
-
-
 # ======= Keras approach =======
 # Initialise the model
 input_size = len(X[0])
@@ -45,16 +40,7 @@ model.compile(optimizer = 'adam', loss = 'mse',
               metrics = ['accuracy'])
 
 # Train the model
-model.fit(X_train, y_train, epochs = 10)
-
-
-# ======= Sklearn approach =======
-# # Initialise the model
-# model = MLPRegressor([128,52])
-#
-# # Train the model
-# model.fit(X_train, y_train)
-
+model.fit(X, y_onehot, epochs = 10)
 
 
 # Here we will play the game with the actions calculated by the regressor
